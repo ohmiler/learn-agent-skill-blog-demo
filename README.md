@@ -1,36 +1,84 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Learn Agent Skills with AntiGravity
 
-## Getting Started
+ยินดีต้อนรับสู่โปรเจกต์ตัวอย่างการใช้งาน **Agent Skills** ใน AntiGravity! โปรเจกต์นี้ถูกสร้างขึ้นเพื่อสาธิตวิธีการสร้างและใช้งาน "Skills" เพื่อสอนให้ AI ทำงานเฉพาะทางได้อย่างแม่นยำและตรงตามมาตรฐานของทีม
 
-First, run the development server:
+## 🎯 Agent Skills คืออะไร?
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+**Agent Skills** คือชุดคำสั่ง กฎเกณฑ์ และบริบทพิเศษที่เรากำหนดไว้เพื่อให้ AI (AntiGravity) เข้าใจวิธีการทำงานของเรา เสมือนกับการส่ง "คู่มือการทำงาน" (Playbook) ให้กับ AI เพื่อให้ผลลัพธ์ที่ได้ออกมามีคุณภาพและรูปแบบตามที่เราต้องการ
+
+## 📂 โครงสร้างการจัดเก็บ
+
+Skills จะถูกเก็บไว้ในโฟลเดอร์ `.agent/skills/` ภายในโปรเจกต์ของคุณ
+
+```
+my-project/
+├── .agent/
+│   └── skills/
+│       └── [skill-name]/
+│           └── SKILL.md  <-- ไฟล์คำสั่งหลัก
+├── src/
+├── package.json
+└── ...
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 📝 ตัวอย่าง: SEO Master Skill
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+ในโปรเจกต์นี้ เราได้สร้าง Skill ชื่อ **Next.js SEO Master** เพื่อบังคับให้ AI เขียน Code โดยคำนึงถึง SEO เสมอ
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+**ไฟล์:** `.agent/skills/seo-master/SKILL.md`
 
-## Learn More
+```markdown
+---
+name: nextjs-seo-master
+description: Skill สำหรับสร้างหน้าเว็บ Next.js ที่รองรับ SEO เต็มรูปแบบ
+---
 
-To learn more about Next.js, take a look at the following resources:
+# Next.js SEO Master Skill
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+You are an expert in Next.js Performance and SEO. When this skill is activated, strictly follow these rules:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 1. Metadata Implementation
+- ทุกหน้าต้องมี `generateMetadata` หรือ `metadata` object
+- ต้องใส่ `title`, `description`, และ `openGraph` เสมอ
 
-## Deploy on Vercel
+## 2. Image Optimization
+- ต้องใช้ `next/image` เท่านั้น
+- รูปที่เป็น LCP (รูปหลักบนสุด) ต้องใส่ `priority` prop
+- ต้องมี `alt` text ที่สื่อความหมาย
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 3. Structural Standards
+- ใช้ **Server Components** เป็นค่าเริ่มต้น
+- ใช้ Semantic HTML (`<article>`, `<section>`, `<h1>`)
+- ต้องมี Breadcrumbs เพื่อให้ Google เข้าใจโครงสร้างเว็บ
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 4. Response Language
+- **สำคัญ:** อธิบาย Technical Decisions เป็น **ภาษาไทย** เสมอ
+```
+
+## 🚀 วิธีการใช้งาน
+
+เมื่อคุณมีไฟล์ Skill แล้ว คุณสามารถเรียกใช้งานได้ง่ายๆ ในแชทกับ AntiGravity:
+
+> "ช่วยสร้างหน้า Blog เกี่ยวกับ 'วิธีเลี้ยงแมว' โดยใช้ skill **nextjs-seo-master** หน่อย"
+
+หรือถ้า Skill นั้นถูกตั้งค่าไว้ดีแล้ว AI อาจจะหยิบมาใช้เองอัตโนมัติตามบริบทของงาน
+
+## ✨ ผลลัพธ์ในโปรเจกต์นี้
+
+หน้า Blog ที่คุณเห็นใน `src/app/blog/how-to-use-agent-skills/page.tsx` ถูกสร้างขึ้นโดยใช้ Skill ด้านบน โดย AI ได้ทำการ:
+1. ✅ สร้าง `generateMetadata` ให้เองครบถ้วน
+2. ✅ ใช้ Semantic Tags เช่น `<article>`, `<header>`, `<section>`
+3. ✅ สร้าง Component `Breadcrumbs` และใส่ JSON-LD Linked Data ให้
+4. ✅ อธิบาย Code และเหตุผลในการเลือกใช้เทคนิคต่างๆ เป็นภาษาไทย
+
+## 🛠️ การรันโปรเจกต์
+
+```bash
+# ติดตั้ง dependencies
+npm install
+
+# รัน development server
+npm run dev
+```
+
+เปิด [http://localhost:3000](http://localhost:3000) เพื่อดูผลลัพธ์
